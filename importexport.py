@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 # ==========================================================================
 BASE_DIR = Path(__file__).parent.resolve()
 DB_PATH = str(BASE_DIR / "database_5menit" / "database.sqlite")
-RSS_FILE = str(BASE_DIR / "rss_listhasil2.txt") # Sesuaikan nama file list RSS Anda
+RSS_FILE = str(BASE_DIR / "rss_list.txt") # Sesuaikan nama file list RSS Anda
 OUTPUT_DIR = str(BASE_DIR)
 
 # ⚠️ GANTI URL INI dengan URL GitHub Pages Anda
