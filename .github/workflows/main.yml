@@ -1,0 +1,51 @@
+name: Scrape 5 Menit & Export HTML
+
+on:
+  workflow_dispatch:          # Tombol manual
+  schedule:
+    - cron: '0 * * * *'       # Opsional: Jalankan otomatis tiap 1 jam (menghemat kuota)
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install feedparser requests beautifulsoup4 lxml
+
+      # ===== JALANKAN FILE GABUNGAN =====
+      - name: Jalankan Scraper (5 Menit) & Export
+        run: python importexport.py
+
+      # ===== COMMIT & PUSH HASIL =====
+      - name: Commit & Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # ✅ MENGAMBIL FILE DARI FOLDER UTAMA (ROOT)
+          git add database_5menit/ *.html *.xml *.txt || true
+          
+          # Jika tidak ada berita baru, hentikan
+          git diff --staged --quiet && echo "Tidak ada artikel baru" && exit 0
+          
+          # Commit dan Push
+          git commit -m "Update otomatis: Berita 5 Menit [skip ci]"
+          git pull --rebase origin main || true
+          git push
