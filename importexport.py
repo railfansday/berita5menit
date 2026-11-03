@@ -19,7 +19,7 @@ RSS_FILE = str(BASE_DIR / "rss_list.txt") # Sesuaikan nama file list RSS Anda
 OUTPUT_DIR = str(BASE_DIR)
 
 # ⚠️ GANTI URL INI dengan URL GitHub Pages Anda
-BASE_URL = "https://thenewsday112.github.io/newsmenuday" 
+BASE_URL = "https://thenewsday112.github.io/berita5menit" 
 
 ARTICLES_PER_PAGE = 20
 SITE_NAME = "News Portal Indonesia"
